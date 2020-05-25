@@ -1,0 +1,25 @@
+sudo: required
+
+services:
+    -  docker
+
+before_install:
+    -  docker build -t jjfagan19/react-test -f ./client/Dockerfile.dev ./client
+
+
+script:
+    - docker run -e CI=true jjfagan19/react=test npm run test 
+
+after_success:
+     - docker build -t jjfagan19/multi-client ./client
+     - docker build -t jjfagan19/multi-nginx ./nginx
+     - docker build -t jjfagan19/multi-api ./api
+     - docker build -t jjfagan19/multi-worker ./worker
+     # Log in to docker CLI
+     - echo "DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+     # Now push to DockerHub
+     - docker push jjfagan19/multi-client
+     - docker push jjfagan19/multi-nginx
+     - docker push jjfagan19/multi-api
+     - docker push jjfagan19/multi-worker
+     
