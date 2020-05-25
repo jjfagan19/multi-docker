@@ -8,7 +8,7 @@ before_install:
 
 
 script:
-    - docker run -e CI=true jjfagan19/react=test npm run test 
+    - docker run -e CI=true jjfagan19/react-test npm run test 
 
 after_success:
      - docker build -t jjfagan19/multi-client ./client
