@@ -23,3 +23,15 @@ after_success:
      - docker push jjfagan19/multi-api
      - docker push jjfagan19/multi-worker
      
+deploy:
+    provider: elasticbeanstalk
+    region: us-east-2
+    app: multi-docker
+    env: MultiDocker-env
+    bucket_name: elasticbeanstalk-us-east-2-394444945382
+    bucket_path: docker-multi
+    on: 
+      match: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+     
